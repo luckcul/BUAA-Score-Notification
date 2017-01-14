@@ -10,6 +10,7 @@ import urllib2
 import cookielib
 import re
 from ocr import ocr
+import socket
 headers = {
 	'Host':"gsmis.graduate.buaa.edu.cn",
 	'User-Agent':"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0",
@@ -30,6 +31,9 @@ cookjar = cookielib.LWPCookieJar()
 cookie_support = urllib2.HTTPCookieProcessor(cookjar)
 opener = urllib2.build_opener(cookie_support, urllib2.HTTPHandler)
 urllib2.install_opener(opener)
+
+#set socket time
+socket.setdefaulttimeout(15)
 
 def login(user, password):
 	# print user, password

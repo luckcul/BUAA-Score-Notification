@@ -42,5 +42,5 @@ if __name__ == '__main__':
 				sendMail(host, postfix, user, password, [to], scoreNew[i][0].encode('utf-8'), scoreNew[i][1].encode('utf-8'))
 		print '.',
 		score = scoreNew
-		# 间隔4S
-		time.sleep(4)
+		# 间隔6S
+		time.sleep(6)

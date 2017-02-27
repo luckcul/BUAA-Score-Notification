@@ -23,16 +23,15 @@ def getConf(config_file_path, choose):
     	return cf.get('mail', 'host'), cf.get('mail', 'postfix'), cf.get('mail', 'user'), cf.get('mail', 'password'), cf.get('mail', 'to')
 
 def getScore():
-	ret = []
+	ret = {}
 	soup = BeautifulSoup(open("a.html"), "lxml")
 	tag = soup.tr
 	x = soup.find('form').findAll('tr')
 	L = len(x)
 	for i in range(0, L-1):
-		temp = []
-		temp.append( x[i].findAll('td')[2].text.strip() )
-		temp.append( x[i].findAll('td')[4].text.strip() )
-		ret.append(temp)
+		course = x[i].findAll('td')[2].text.strip();
+		score = x[i].findAll('td')[4].text.strip();
+		ret[course] = score;
 	return ret
 
 

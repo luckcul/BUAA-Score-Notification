@@ -13,34 +13,36 @@ import time
 if __name__ == '__main__':
 	LoginUser, LoginPassword = getConf('conf.ini', 1)
 	host, postfix, user, password, to = getConf('conf.ini', 2)
-	score = []
+	ans = {}
 	while True:
 		try:
 			getHtml(LoginUser, LoginPassword)
-			score = getScore()
+			ans = getScore()
 			break
 		except Exception, e:
 			print '!',
-	L = len(score)
+	L = len(ans)
 	#输出 第一次登陆时的成绩，认为这些是已知的，不会发邮件通知
-	for x in score:
-		print x[0].encode('utf-8'), x[1].encode('utf-8')
+	for (course, score) in ans.items():
+		print course.encode('utf-8'), score.encode('utf-8')
 
 	while True:
 		while True :
 			try: 
 				#继续不断获取最新成绩
 				getHtml(LoginUser, LoginPassword)
-				scoreNew = getScore()
+				ansNew = getScore()
 				break
 			except Exception, e:
 				print '!',
-		for i in range(0, L):
+		for course in ansNew:
 			#如果有新成绩出现，发邮件通知
-			if score[i][1] != scoreNew[i][1] :
-				print 'new!!'
-				sendMail(host, postfix, user, password, [to], scoreNew[i][0].encode('utf-8'), scoreNew[i][1].encode('utf-8'))
+			score = ans.get(course)
+			scoreNew = ansNew.get(course)
+			if scoreNew != score and score != None and scoreNew != None:
+				print 'new!',
+				sendMail(host, postfix, user, password, [to], course.encode('utf-8'), scoreNew.encode('utf-8'))
 		print '.',
-		score = scoreNew
+		ans = ansNew
 		# 间隔6S
 		time.sleep(6)
